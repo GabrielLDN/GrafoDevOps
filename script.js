@@ -22,33 +22,75 @@ var nodes = new vis.DataSet([
     {id: 19, label: 'Docker, Containerd', shape: 'ellipse', color: '#90CAF9'},
     {id: 20, label: 'Amazon ECS, Amazon EKS', shape: 'ellipse', color: '#90CAF9'},
     {id: 21, label: 'AWS X-Ray, AWS Config, AWS CloudTrail', shape: 'ellipse', color: '#90CAF9'},
-    {id: 22, label: 'Práticas', shape: 'ellipse', color: '#81C784', x: 0, y: 300, fixed: {x:true, y:true}},
-    
+    {id: 22, label: 'Práticas Devops', shape: 'ellipse', color: '#81C784', x: 0, y: 300, fixed: {x:true, y:true}},
+    {id: 23, label: 'Integração Contínua (CI)', shape: 'ellipse', color: '#81C784'},
+    {id: 24, label: 'Entrega Contínua (CD)', shape: 'ellipse', color: '#81C784'},
+    {id: 25, label: 'Automação de Infraestrutura', shape: 'ellipse', color: '#81C784'},
+    {id: 26, label: 'Contêinerização', shape: 'ellipse', color: '#81C784'},
+    {id: 27, label: 'Serverless', shape: 'ellipse', color: '#81C784'},
+    {id: 28, label: 'Monitoramento e Observabilidade', shape: 'ellipse', color: '#81C784'},
+    {id: 29, label: 'Segurança em DevOps (DevSecOps)', shape: 'ellipse', color: '#81C784'},
+    {id: 30, label: 'Testes Contínuos', shape: 'ellipse', color: '#81C784'},
+    {id: 31, label: 'Práticas Ágeis e Lean', shape: 'ellipse', color: '#81C784'},
+    {id: 32, label: 'Ciclo de Vida de DevOps', shape: 'ellipse', color: '#81C784'},
+    {id: 33, label: 'Gerenciamento de Release', shape: 'ellipse', color: '#81C784'},
+    {id: 34, label: 'Versionamento Semântico', shape: 'ellipse', color: '#81C784'},
+    {id: 35, label: 'Estratégias de Versionamento', shape: 'ellipse', color: '#81C784'},
+    {id: 36, label: 'Estratégias de Suporte e Manutenção', shape: 'ellipse', color: '#81C784'},
+    {id: 37, label: 'Práticas de Código Aberto', shape: 'ellipse', color: '#81C784'},
+    {id: 38, label: 'Governança de Código', shape: 'ellipse', color: '#81C784'},
+    {id: 39, label: 'Escalabilidade de Aplicações', shape: 'ellipse', color: '#81C784'},
+    {id: 40, label: 'Consistência de Ambientes', shape: 'ellipse', color: '#81C784'},
+    {id: 41, label: 'Configuração de Sandboxes', shape: 'ellipse', color: '#81C784'},
+    {id: 42, label: 'Práticas de Integração de Dados', shape: 'ellipse', color: '#81C784'},
+    {id: 43, label: 'Segurança de Aplicações', shape: 'ellipse', color: '#81C784'},
+    {id: 44, label: 'Gerenciamento de Incidentes de Segurança', shape: 'ellipse', color: '#81C784'},
+    {id: 45, label: 'Avaliação de Riscos', shape: 'ellipse', color: '#81C784'},
+    {id: 46, label: 'Compatibilidade de Versões Anteriores', shape: 'ellipse', color: '#81C784'},
+    {id: 47, label: 'Estratégias de Rollback', shape: 'ellipse', color: '#81C784'},
+    {id: 48, label: 'Automação de Correções de Segurança', shape: 'ellipse', color: '#81C784'},
+    {id: 49, label: 'Gerenciamento de Chaves de Segurança', shape: 'ellipse', color: '#81C784'},
+    {id: 50, label: 'Monitoramento de Conformidade', shape: 'ellipse', color: '#81C784'},
+    {id: 51, label: 'Práticas de Documentação de Software', shape: 'ellipse', color: '#81C784'},
+    {id: 52, label: 'Estratégias de Feedback do Cliente', shape: 'ellipse', color: '#81C784'},
+    {id: 53, label: 'Gerenciamento de Dependências Transversais', shape: 'ellipse', color: '#81C784'},
+    {id: 54, label: 'Práticas de Desenvolvimento Sustentável', shape: 'ellipse', color: '#81C784'},
+    {id: 55, label: 'Automação de Testes de Aceitação', shape: 'ellipse', color: '#81C784'},
+    {id: 56, label: 'Testes de Acessibilidade', shape: 'ellipse', color: '#81C784'},
+    {id: 57, label: 'Estratégias de Desenvolvimento Responsivo', shape: 'ellipse', color: '#81C784'},
+    {id: 58, label: 'Gerenciamento de Versões', shape: 'ellipse', color: '#81C784'},
+    {id: 59, label: 'Monitoramento de Aplicações', shape: 'ellipse', color: '#81C784'},
+    {id: 60, label: 'Observabilidade', shape: 'ellipse', color: '#81C784'},
+    {id: 61, label: 'Logs, Métricas, e Dados de Rastreamento', shape: 'ellipse', color: '#81C784'},
+    {id: 62, label: 'Teste Funcional e Não Funcional', shape: 'ellipse', color: '#81C784'},
+    {id: 63, label: 'Teste de Integração', shape: 'ellipse', color: '#81C784'},
+    {id: 64, label: 'Teste de Carga', shape: 'ellipse', color: '#81C784'},
+    {id: 65, label: 'Teste de Segurança', shape: 'ellipse', color: '#81C784'},
+    {id: 66, label: 'Teste de Aceitação', shape: 'ellipse', color: '#81C784'},
+    {id: 67, label: 'Estratégias de Deployment', shape: 'ellipse', color: '#81C784'},
+    {id: 68, label: 'Ambientes de Desenvolvimento, Teste, e Produção', shape: 'ellipse', color: '#81C784'},
+    {id: 69, label: 'Automatização de Tarefas', shape: 'ellipse', color: '#81C784'},
+    {id: 70, label: 'Métricas e KPIs específicos', shape: 'ellipse', color: '#81C784'},
+    {id: 71, label: 'Abordagem Iterativa e Incremental', shape: 'ellipse', color: '#81C784'}
 ]);
 
 var edges = new vis.DataSet([
-    // Conexões do super nó DevOps com elementos de Cultura
     {from: 1, to: 2},
-    {from: 2, to: 3},
-    {from: 2, to: 4},
-    {from: 2, to: 5},
-    {from: 2, to: 6},
-    {from: 2, to: 7},
-    {from: 2, to: 8},
-    {from: 2, to: 9},
-    {from: 2, to: 10},
     {from: 1, to: 11},
-    {from: 11, to: 12},
-    {from: 11, to: 13},
-    {from: 11, to: 14},
-    {from: 11, to: 15},
-    {from: 11, to: 16},
-    {from: 11, to: 17},
-    {from: 11, to: 18},
-    {from: 11, to: 19},
-    {from: 11, to: 20},
-    {from: 11, to: 21},
+    {from: 1, to: 22},
 ]);
+
+for(let i = 3; i <= 10; i++) {
+    edges.add({from: 2, to: i});
+}
+
+for(let i = 13; i <= 21; i++) {
+    edges.add({from: 12, to: i});
+}
+
+for(let i = 23; i <= 71; i++) {
+    edges.add({from: 22, to: i});
+}
 
 var options = {
     physics: {
@@ -68,12 +110,3 @@ var options = {
 var container = document.getElementById('mynetwork');
 var data = {nodes: nodes, edges: edges};
 var network = new vis.Network(container, data, options);
-
-//network.on("dragEnd", function (params) {
-//    for (var i = 0; i < params.nodes.length; i++) {
-//        if (params.nodes[i] == params.nodes[i]) { // Verifica se é um nó que foi arrastado
-//            network.setOptions({ physics: {enabled: false} }); // Desabilita a física
-//            break; // Sai do loop após encontrar e desabilitar a física
-//        }
-//    }
-//});
