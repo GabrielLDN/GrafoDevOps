@@ -91,7 +91,7 @@ var edges = new vis.DataSet([
 for(let i = 3; i <= 10; i++) {
     edges.add({from: 2, to: i});
 }
-for(let i = 13; i <= 21; i++) {
+for(let i = 12; i <= 21; i++) {
     edges.add({from: 11, to: i});
 }
 for(let i = 23; i <= 71; i++) {
@@ -121,8 +121,7 @@ var options = {
             hover: 'gray',
             inherit: false,
         },
-        arrows: 'to',
-        smooth: true
+        smooth: false // As arestas serão retas
     },
     interaction: {
         dragNodes: true,
