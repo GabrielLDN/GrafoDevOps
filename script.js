@@ -133,3 +133,57 @@ var options = {
 var container = document.getElementById('mynetwork');
 var data = {nodes: nodes, edges: edges};
 var network = new vis.Network(container, data, options);
+
+network.on("dragStart", function (params) {
+    var draggedNodeId = params.nodes[0];
+    var draggedNode = nodes.get(draggedNodeId);
+    
+    // Verifique se o nó arrastado é "Cultura DevOps", "Práticas DevOps" ou "Ferramentas DevOps"
+    if (draggedNode.label === 'Cultura DevOps' || draggedNode.label === 'Práticas DevOps' || draggedNode.label === 'Ferramentas DevOps') {
+        var nodesToDrag = [];
+        
+        // Identifique todos os nós com a mesma cor
+        nodes.forEach(function (node) {
+            if (node.color && node.color.background === draggedNode.color.background) {
+                nodesToDrag.push(node.id);
+            }
+        });
+        
+        // Adicione esses nós à seleção
+        network.selectNodes(nodesToDrag);
+    }
+});
+
+network.on("dragEnd", function (params) {
+    // Desmarque todos os nós após o término do arrasto
+    network.unselectAll();
+});
+
+    function searchNode() {
+        var searchText = document.getElementById('searchInput').value.trim().toLowerCase();
+        var foundNodes = nodes.get({
+            filter: function (node) {
+                return node.label.toLowerCase().includes(searchText);
+            }
+        });
+        if (foundNodes.length > 0) {
+            var connectedNodes = [];
+            foundNodes.forEach(function (node) {
+                var connectedEdges = edges.get({
+                    filter: function (edge) {
+                        return edge.from === node.id;
+                    }
+                });
+                connectedEdges.forEach(function (edge) {
+                    connectedNodes.push(nodes.get(edge.to).label);
+                });
+            });
+            if (connectedNodes.length > 0) {
+                alert("O nó '" + searchText + "' está conectado aos seguintes nós: " + connectedNodes.join(", "));
+            } else {
+                alert("O nó '" + searchText + "' não está conectado a nenhum outro nó.");
+            }
+        } else {
+            alert('Nenhum nó encontrado com o texto fornecido.');
+        }
+    }
