@@ -112,16 +112,22 @@ praticaParaFerramentaMappings.forEach(mapping => {
 
 var options = {
     physics: {
-        enabled: false
+        enabled: true,
+        barnesHut: {
+            gravitationalConstant: -2000, // Valor menor para gravidade
+            centralGravity: 0.0,
+            springLength: 200, // Maior distância entre os nós
+            springConstant: 0.01, // Menor constante de mola
+            damping: 0.9, // Alto amortecimento para reduzir movimento
+            avoidOverlap: 0.5
+        },
+        stabilization: {
+            enabled: true,
+            iterations: 1000
+        }
     },
     edges: {
-        color: {
-            color: 'gray',
-            highlight: 'gray',
-            hover: 'gray',
-            inherit: false,
-        },
-        smooth: false // As arestas serão retas
+        smooth: false
     },
     interaction: {
         dragNodes: true,
@@ -129,6 +135,7 @@ var options = {
         zoomView: true
     }
 };
+
 
 var container = document.getElementById('mynetwork');
 var data = {nodes: nodes, edges: edges};
@@ -158,3 +165,42 @@ network.on("dragEnd", function (params) {
     // Desmarque todos os nós após o término do arrasto
     network.unselectAll();
 });
+
+document.getElementById('searchInput').addEventListener('input', function() {
+    var input = this.value.toLowerCase();
+    var list = document.getElementById('nodeList');
+    list.innerHTML = ''; // Limpa a lista atual
+
+    var filteredNodes = nodes.get({
+        filter: function(node) {
+            return node.label.toLowerCase().includes(input);
+        }
+    });
+
+    if (filteredNodes.length > 0 && input !== '') {
+        list.style.display = 'block'; // Mostra a lista se houver opções filtradas
+        filteredNodes.forEach(function(node) {
+            var div = document.createElement('div');
+            div.textContent = node.label;
+            div.onclick = function() {
+                network.focus(node.id, {
+                    scale: network.getScale() * 2, // Aplica o zoom máximo disponível
+                    animation: true
+                });
+                alert("O nó selecionado está conectado aos seguintes nós: " + getConnectedNodesLabels(node.id).join(", "));
+                list.style.display = 'none'; // Esconde a lista ao selecionar um nó
+            };
+            list.appendChild(div);
+        });
+    } else {
+        list.style.display = 'none'; // Esconde a lista se não houver opções filtradas
+    }
+});
+
+// Função para obter labels dos nós conectados (usada no evento onclick)
+function getConnectedNodesLabels(nodeId) {
+    var connectedNodes = network.getConnectedNodes(nodeId);
+    return connectedNodes.map(function(id) {
+        return nodes.get(id).label;
+    });
+}
