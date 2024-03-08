@@ -158,32 +158,3 @@ network.on("dragEnd", function (params) {
     // Desmarque todos os nós após o término do arrasto
     network.unselectAll();
 });
-
-    function searchNode() {
-        var searchText = document.getElementById('searchInput').value.trim().toLowerCase();
-        var foundNodes = nodes.get({
-            filter: function (node) {
-                return node.label.toLowerCase().includes(searchText);
-            }
-        });
-        if (foundNodes.length > 0) {
-            var connectedNodes = [];
-            foundNodes.forEach(function (node) {
-                var connectedEdges = edges.get({
-                    filter: function (edge) {
-                        return edge.from === node.id;
-                    }
-                });
-                connectedEdges.forEach(function (edge) {
-                    connectedNodes.push(nodes.get(edge.to).label);
-                });
-            });
-            if (connectedNodes.length > 0) {
-                alert("O nó '" + searchText + "' está conectado aos seguintes nós: " + connectedNodes.join(", "));
-            } else {
-                alert("O nó '" + searchText + "' não está conectado a nenhum outro nó.");
-            }
-        } else {
-            alert('Nenhum nó encontrado com o texto fornecido.');
-        }
-    }
