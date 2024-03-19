@@ -1,7 +1,7 @@
 var edges = new vis.DataSet([
     // Conexões iniciais estáticas
-    {from: 1, to: 2}, {from: 1, to: 11}, {from: 1, to: 22},
-    {from: 6, to: 23}, {from: 7, to: 28}, {from: 8, to: 32}, {from: 9, to: 32}, {from: 10, to: 31},
+    {from: 1, to: 2, color: {color:'purple'}}, {from: 1, to: 11, color: {color:'purple'}}, {from: 1, to: 22, color: {color:'purple'}},
+    {from: 6, to: 23, color: {color:'gray'}}, {from: 7, to: 28, color: {color:'gray'}}, {from: 8, to: 32, color: {color:'gray'}}, {from: 9, to: 32, color: {color:'gray'}}, {from: 10, to: 31, color: {color:'gray'}},
     // Expandindo conexões dinâmicas
     ...gerarConexoes(2, 3, 10),
     ...gerarConexoes(11, 12, 21),
@@ -10,11 +10,22 @@ var edges = new vis.DataSet([
     ...praticaParaFerramentaMappings(23, 71, [31, 37, 38, 42, 54, 57], 11)
 ]);
 
+function getColorByNode(nodeId) {
+    switch(nodeId) {
+        case 1: return 'purple';
+        case 11: return 'red';
+        case 22: return 'green';
+        case 2: return 'orange';
+        default: return 'gray'; // Cor padrão para os demais nós
+    }
+}
+
 // Função para gerar conexões dinâmicas entre os nós
 function gerarConexoes(de, inicio, fim) {
     let conexoes = [];
+    let cor = getColorByNode(de); // Determina a cor baseada no nó de origem
     for (let i = inicio; i <= fim; i++) {
-        conexoes.push({from: de, to: i});
+        conexoes.push({from: de, to: i, color: {color: cor}});
     }
     return conexoes;
 }
@@ -22,9 +33,10 @@ function gerarConexoes(de, inicio, fim) {
 // Função para mapear práticas para ferramentas com exceções
 function praticaParaFerramentaMappings(inicio, fim, excecoes, ferramentaId) {
     let mapeamentos = [];
+    let cor = getColorByNode(ferramentaId); // Assume que a cor é determinada pelo nó de destino, ajuste conforme necessário
     for (let praticaId = inicio; praticaId <= fim; praticaId++) {
         if (!excecoes.includes(praticaId)) {
-            mapeamentos.push({from: praticaId, to: ferramentaId});
+            mapeamentos.push({from: praticaId, to: ferramentaId, color: {color: cor}});
         }
     }
     return mapeamentos;
@@ -34,8 +46,8 @@ function praticaParaFerramentaMappings(inicio, fim, excecoes, ferramentaId) {
 window.nodes.update([
     {id: 1, fixed: {x: true, y: true}, x: 0, y: 0},
     {id: 2, fixed: {x: true, y: true}, x: 0, y: -250}, // 50px acima do nó 1
-    {id: 11, fixed: {x: true, y: true}, x: -250, y: 250}, // 100px à esquerda e 50px abaixo do nó 1
-    {id: 22, fixed: {x: true, y: true}, x: 250, y: 250}, // 100px à direita e 50px abaixo do nó 1
+    {id: 11, fixed: {x: true, y: true}, x: -350, y: 250}, // 100px à esquerda e 50px abaixo do nó 1
+    {id: 22, fixed: {x: true, y: true}, x: 350, y: 250}, // 100px à direita e 50px abaixo do nó 1
 ]);
 
 // Refatoração da gestão de eventos
@@ -54,20 +66,24 @@ function configurarEventos(network, nodes) {
 }
 
 function arrastarNodosConexos(nodeId, network) {
-    const draggedNode = window.nodes.get(nodeId);
-    if (!draggedNode) return;
+    const nosPrincipais = [1, 11, 22, 2]; // Define os IDs dos nós principais
+    if (nosPrincipais.includes(nodeId)) { // Checa se o nó selecionado é um dos principais
+        const draggedNode = window.nodes.get(nodeId);
+        if (!draggedNode) return;
 
-    const coresRelevantes = ['purple', 'orange', 'red', 'green'];
-    if (coresRelevantes.includes(draggedNode.color.background)) {
-        const nodesToDrag = window.nodes.get({
-            filter: function (node) {
-                return node.color.background === draggedNode.color.background;
-            }
-        }).map(node => node.id);
+        const coresRelevantes = ['purple', 'orange', 'red', 'green']; // As cores que indicam nós principais
+        if (coresRelevantes.includes(draggedNode.color.background)) {
+            const nodesToDrag = window.nodes.get({
+                filter: function (node) {
+                    return node.color.background === draggedNode.color.background;
+                }
+            }).map(node => node.id);
 
-        network.selectNodes(nodesToDrag);
+            network.selectNodes(nodesToDrag, false); // Seleciona os nós para arrasto. O segundo argumento 'false' é para não desmarcar outros nós selecionados, ajuste conforme necessário.
+        }
     }
 }
+
 
 function filtrarNodos(input, network, nodes) {
     const list = document.getElementById('nodeList');
@@ -108,6 +124,7 @@ function getConnectedNodesLabels(nodeId, network) {
     const connectedNodes = network.getConnectedNodes(nodeId);
     return connectedNodes.map(id => nodes.get(id).label);
 }
+
 // Refatoração das opções de exibição e interação
 const options = {
     physics: {
