@@ -23,7 +23,7 @@ function getColorByNode(nodeId) {
 // Função para gerar conexões dinâmicas entre os nós
 function gerarConexoes(de, inicio, fim) {
     let conexoes = [];
-    let cor = getColorByNode(de); // Determina a cor baseada no nó de origem
+    let cor = getColorByNode(de);
     for (let i = inicio; i <= fim; i++) {
         conexoes.push({from: de, to: i, color: {color: cor}});
     }
@@ -112,13 +112,14 @@ function mostrarNodosFiltrados(nodos, list, network) {
         const div = document.createElement('div');
         div.textContent = node.label;
         div.onclick = function() {
-            network.focus(node.id, {scale: network.getScale() * 2, animation: true});
-            alert("O nó selecionado está conectado aos seguintes nós: " + getConnectedNodesLabels(node.id, network).join(", "));
+            network.focus(node.id, {scale: network.getScale() * 4, animation: true});
+            alert("O " + node.label + " está conectado aos seguintes assuntos: " + getConnectedNodesLabels(node.id, network).join(", "));
             list.style.display = 'none';
         };
         list.appendChild(div);
     });
 }
+
 
 function getConnectedNodesLabels(nodeId, network) {
     const connectedNodes = network.getConnectedNodes(nodeId);
